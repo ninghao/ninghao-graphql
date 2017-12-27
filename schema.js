@@ -121,6 +121,29 @@ const MutationRootType = new GraphQLObjectType({
         })
         .then(response => response.data)
       }
+    },
+    updatePost: {
+      type: PostType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        title: {
+          type: GraphQLString
+        },
+        content: {
+          type: GraphQLString
+        },
+        author: {
+          type: GraphQLString
+        }
+      },
+      resolve: (obj, args) => {
+        return axios.patch(`${ API_BASE }/posts/${ args.id }`, {
+          ...args
+        })
+        .then(response => response.data)
+      }
     }
   }
 })
