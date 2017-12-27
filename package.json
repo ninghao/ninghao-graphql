@@ -1,0 +1,20 @@
+{
+  "name": "ninghao-graphql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ninghao/ninghao-graphql.git",
+  "author": "wanghao8080 <117663444@qq.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "./node_modules/.bin/nodemon index.js --exec babel-node --presets env,stage-0"
+  },
+  "dependencies": {
+    "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "nodemon": "^1.14.3"
+  }
+}
