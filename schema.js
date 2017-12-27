@@ -37,6 +37,18 @@ const QueryRootType = new GraphQLObjectType({
         return axios.get(`${ API_BASE }/posts`)
           .then(response => response.data)
       }
+    },
+    post: {
+      type: PostType,
+      args: {
+        id: {
+          type: GraphQLString
+        }
+      },
+      resolve: (obj, args, context) => {
+        return axios.get(`${ API_BASE }/posts/${ args.id }`)
+          .then(response => response.data)
+      }
     }
   }
 })
