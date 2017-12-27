@@ -144,6 +144,18 @@ const MutationRootType = new GraphQLObjectType({
         })
         .then(response => response.data)
       }
+    },
+    deletePost: {
+      type: PostType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: (obj, args) => {
+        return axios.delete(`${ API_BASE }/posts/${ args.id }`)
+          .then(response => response.data)
+      }
     }
   }
 })
