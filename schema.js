@@ -21,6 +21,25 @@ const UserType = new GraphQLObjectType({
   }
 })
 
+const CommentType = new GraphQLObjectType({
+  name: 'Comment',
+  fields: {
+    id: {
+      type: GraphQLString
+    },
+    content: {
+      type: GraphQLString
+    },
+    author: {
+      type: UserType,
+      resolve: (obj) => {
+        return axios.get(`${ API_BASE }/users/${ obj.author }`)
+          .then(response => response.data)
+      }
+    }
+  }
+})
+
 const PostType = new GraphQLObjectType({
   name: 'Post',
   fields: {
@@ -37,6 +56,13 @@ const PostType = new GraphQLObjectType({
       type: UserType,
       resolve: (obj) => {
         return axios.get(`${ API_BASE }/users/${ obj.author }`)
+          .then(response => response.data)
+      }
+    },
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve: (obj) => {
+        return axios.get(`${ API_BASE }/posts/${ obj.id }/comments`)
           .then(response => response.data)
       }
     }
