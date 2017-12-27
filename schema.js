@@ -9,6 +9,18 @@ import axios from 'axios'
 
 const API_BASE = 'http://localhost:3300'
 
+const UserType = new GraphQLObjectType({
+  name: 'User',
+  fields: {
+    id: {
+      type: GraphQLString
+    },
+    name: {
+      type: GraphQLString
+    }
+  }
+})
+
 const PostType = new GraphQLObjectType({
   name: 'Post',
   fields: {
@@ -20,6 +32,13 @@ const PostType = new GraphQLObjectType({
     },
     content: {
       type: GraphQLString
+    },
+    author: {
+      type: UserType,
+      resolve: (obj) => {
+        return axios.get(`${ API_BASE }/users/${ obj.author }`)
+          .then(response => response.data)
+      }
     }
   }
 })
