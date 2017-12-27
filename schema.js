@@ -2,7 +2,8 @@ import {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLNonNull
 } from 'graphql'
 
 import axios from 'axios'
@@ -98,6 +99,33 @@ const QueryRootType = new GraphQLObjectType({
   }
 })
 
+const MutationRootType = new GraphQLObjectType({
+  name: 'MutationRoot',
+  fields: {
+    createPost: {
+      type: PostType,
+      args: {
+        title: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        content: {
+          type: new GraphQLNonNull(GraphQLString)
+        },
+        author: {
+          type: new GraphQLNonNull(GraphQLString)
+        }
+      },
+      resolve: (obj, args) => {
+        return axios.post(`${ API_BASE }/posts`, {
+          ...args
+        })
+        .then(response => response.data)
+      }
+    }
+  }
+})
+
 export default new GraphQLSchema({
-  query: QueryRootType
+  query: QueryRootType,
+  mutation: MutationRootType
 })
